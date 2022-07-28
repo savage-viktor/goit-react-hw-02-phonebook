@@ -1,16 +1,22 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      Жуй сраку{' '}
-    </div>
-  );
-};
+import React from 'react';
+import { AddContact } from './AddContact/AddContact';
+import { nanoid } from 'nanoid';
+
+export class App extends React.Component {
+  state = {
+    contacts: [],
+    name: '',
+  };
+
+  addContactHandler = event => {
+    event.preventDefault();
+    console.log('Submit');
+  };
+
+  render() {
+    return <AddContact onSubmit={this.addContactHandler} />;
+  }
+}
+
+// model.id = nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
+console.log(nanoid());
