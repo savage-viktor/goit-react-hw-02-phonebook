@@ -26,8 +26,8 @@ export class App extends Component {
       if (contact.name.toLowerCase() === name.toLowerCase()) {
         alert(`${name} is already in contacts`);
         isSameName = true;
-        return;
       }
+      return 0;
     });
 
     if (isSameName === false) {
