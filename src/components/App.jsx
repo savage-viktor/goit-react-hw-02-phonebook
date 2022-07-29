@@ -1,11 +1,11 @@
-import React from 'react';
-import { AddContact } from './AddContact/AddContact';
-import { ContactList } from './ContactList/ContactList';
-import { FindContact } from './FindContact/FindContact';
-
+import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
-export class App extends React.Component {
+import ContactForm from './ContactForm';
+import ContactList from './ContactList';
+import Filter from './Filter';
+
+export class App extends Component {
   state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -14,8 +14,6 @@ export class App extends React.Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   addContactHandler = event => {
@@ -25,9 +23,10 @@ export class App extends React.Component {
 
     let isSameName = false;
     this.state.contacts.map(contact => {
-      if (contact.name === name) {
-        alert('is already in contacts');
+      if (contact.name.toLowerCase() === name.toLowerCase()) {
+        alert(`${name} is already in contacts`);
         isSameName = true;
+        return;
       }
     });
 
@@ -40,39 +39,30 @@ export class App extends React.Component {
     event.currentTarget.reset();
   };
 
-  inputHandler = event => {
-    this.setState({ [event.currentTarget.name]: event.currentTarget.value });
-  };
-
   onFindHandler = event => {
     this.setState({ [event.currentTarget.name]: event.currentTarget.value });
   };
 
-  deleteContact = event => {
-    console.log(event.currentTarget.id);
-    const newCont = this.state.contacts.filter(contact => {
-      return contact.id !== event.currentTarget.id;
-    });
-    console.log(newCont);
-
-    this.setState({
-      contacts: [...newCont],
-    });
+  deleteContact = contactId => {
+    this.setState(prevstate => ({
+      contacts: prevstate.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
   render() {
     const filteredContacts = this.state.contacts.filter(contact => {
-      return contact.name.includes(this.state.filter);
+      return contact.name
+        .toLowerCase()
+        .includes(this.state.filter.toLowerCase());
     });
 
     return (
       <div>
-        <AddContact
-          onSubmit={this.addContactHandler}
-          onInput={this.inputHandler}
-        />
-        <FindContact onInput={this.onFindHandler} />
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={this.addContactHandler} />
 
+        <h2>Contacts</h2>
+        <Filter onInput={this.onFindHandler} />
         <ContactList
           contactList={filteredContacts}
           onDelete={this.deleteContact}
