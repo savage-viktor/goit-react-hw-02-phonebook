@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import { AppBox, Title, SectionBox } from './App.styled';
 
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
@@ -56,17 +57,21 @@ export class App extends Component {
     });
 
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContactHandler} />
+      <AppBox>
+        <SectionBox>
+          <Title>Phonebook</Title>
+          <ContactForm onSubmit={this.addContactHandler} />
+        </SectionBox>
 
-        <h2>Contacts</h2>
-        <Filter onInput={this.onFindHandler} />
-        <ContactList
-          contactList={filteredContacts}
-          onDelete={this.deleteContact}
-        />
-      </div>
+        <SectionBox>
+          <Title>Contacts</Title>
+          <Filter onInput={this.onFindHandler} />
+          <ContactList
+            contactList={filteredContacts}
+            onDelete={this.deleteContact}
+          />
+        </SectionBox>
+      </AppBox>
     );
   }
 }
