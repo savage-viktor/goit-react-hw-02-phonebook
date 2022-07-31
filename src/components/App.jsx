@@ -30,11 +30,10 @@ export class App extends Component {
       return 0;
     });
 
-    if (isSameName === false) {
+    isSameName ||
       this.setState(prevState => ({
         contacts: [...prevState.contacts, { name, number, id: nanoid() }],
       }));
-    }
 
     event.currentTarget.reset();
   };
